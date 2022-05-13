@@ -6,7 +6,9 @@ import Rating from '@material-ui/lab/Rating'
 
 import useStyles from './styles'
 
-const Map = ({ setCoordinates, setBounds, coordinates, places, setchildClicked }) => {
+import mapStyles from './mapStyles'
+
+const Map = ({ setCoordinates, setBounds, coordinates, places, setchildClicked, weatherData }) => {
     const classes = useStyles();
     const isDesktop = useMediaQuery('(min-width:600px)');
 
@@ -18,7 +20,7 @@ const Map = ({ setCoordinates, setBounds, coordinates, places, setchildClicked }
                 center={coordinates}
                 defaultZoom={14}
                 margin={[50, 50, 50, 50]}
-                options={''}
+                options={{ disableDefaultUi: true, zoomControl: true, styles: mapStyles }}
                 onChange={(e) => {
                     console.log(e);
 
@@ -53,6 +55,11 @@ const Map = ({ setCoordinates, setBounds, coordinates, places, setchildClicked }
                                 </Paper>
                             )
                         }
+                    </div>
+                ))}
+                {weatherData?.list?.map((data, i) => (
+                    <div key={i} lat={data.coord.lat} lng={data.coord.lon}>
+                        <img height={100} src={`https://openweathermap.org/img/w/${data.weather[0].icon }.png`} alt=""/>
                     </div>
                 ))}
             </GoogleMapReact>
